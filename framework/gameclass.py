@@ -1,21 +1,44 @@
 import pygame
-from scene import Scene
+
+from .color import Color
+from .helperfunctions import tuple2vec
+from .vectorclass import Vector
+from .scene import Scene
 
 class Game:
     DELTA = 0
-    def __init__(self) -> None:
+    DISPLAY = None
+    def __init__(self, width=500, height=500) -> None:
         self.running = True
         pygame.init()
         self.CLOCK = pygame.time.Clock()
 
         self.setActiveScene(Scene())
 
-        pygame.display.set_mode((500,500))
+        Game.DISPLAY = pygame.display.set_mode((width,height))
+        self.background_color = Color.BLACK
+
+
+    @staticmethod
+    def getSize(index=None):
+        """returns the window dimensions"""
+        if index is None:
+            return tuple2vec(Game.DISPLAY.get_size())
+        return Game.DISPLAY.get_size()[index]
+    @staticmethod
+    def center():
+        """returns the center Vector of the window"""
+        return tuple2vec(Game.getSize()/2)
+    @staticmethod
+    def display(obj, pos: Vector):
+        """Displays an Pygame Surface to the Screen"""
+        Game.DISPLAY.blit(obj, pos.to_tuple())
 
     def drawBackground(self):
         """
         Overwrite function to change the apperance of the background
         """
+        Game.DISPLAY.fill(self.background_color)
 
     def __onExit(self):
         pass
@@ -49,7 +72,3 @@ class Game:
         finally:
             self.__onExit()
             self.onExit()
-
-g=Game()
-
-g.run()
