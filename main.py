@@ -25,7 +25,8 @@ class App(Game):
         if Keyboard.pressed(pygame.K_DOWN):
             self.player.position.y += speed * Game.DELTA
 
-        collision = CollisionHandler.snapbackCollision(self.player, self.collider1)
+        collision = CollisionHandler.isOverlap(self.player, self.collider1)
+        print(collision)
 
 g = App()
 g.run(60)

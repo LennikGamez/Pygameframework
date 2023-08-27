@@ -50,6 +50,7 @@ class CollisionHandler:
 
     @staticmethod
     def snapbackCollision(h1, h2):
+        """Returns CollisionType and sets the position of the Hitbox to seperate it from the collider"""
         collision = CollisionHandler.isCollision(h1, h2)
 
         if collision.is_none():
@@ -68,8 +69,8 @@ class CollisionHandler:
 
     @staticmethod
     def isCollision(h1, h2):
-        """CollisionType is from the perspective of first hitbox"""
-        
+        """Return a CollisonType object which holds information about the place of collision for example the collision happend on the left of the object"""
+        # CollisionType is from the perspective of first hitbox
         if left_right_jump(h1, h2) and CollisionHandler.y_overlap(h1, h2):
             return CollisionType(CollisionTypes.RIGHT)
         if right_left_jump(h1, h2) and CollisionHandler.y_overlap(h1, h2):
@@ -88,6 +89,7 @@ class CollisionHandler:
 
     @staticmethod
     def x_overlap(h1, h2):
+        """Returns True if h1 and h2 overlap on the x-axis"""
         # h1 colliding from right
         if h1.right() >= h2.left() and h1.right() <= h2.right() or\
             h1.left() <= h2.right() and h1.left() >= h2.left() or\
@@ -97,6 +99,7 @@ class CollisionHandler:
     
     @staticmethod
     def y_overlap(h1, h2):
+        """Returns True if h1 and h2 overlap on the y-axis"""
         # h1 colliding from right
         if h1.top() <= h2.bottom() and h1.top() >= h2.top() or\
             h1.bottom() >= h2.top() and h1.bottom() <= h2.bottom() or\
