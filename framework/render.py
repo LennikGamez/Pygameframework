@@ -1,5 +1,7 @@
 
 import pygame
+
+from framework.helperfunctions import tuple2vec
 from .gameclass import Game
 from .color import Color
 from .vectorclass import Vector
@@ -27,3 +29,10 @@ class Render:
     @staticmethod
     def circle(pos: Vector, r, color=Color.WHITE, width=0):
         pygame.draw.circle(Game.DISPLAY,color,pos.to_tuple(),r, width=width)
+
+
+    @staticmethod
+    def image(pos: Vector, img):
+        pos -= tuple2vec(img.get_size())/2
+
+        Game.DISPLAY.blit(img, pos.to_tuple())

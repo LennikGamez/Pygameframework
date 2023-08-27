@@ -8,8 +8,8 @@ class Scene:
         for obj in self.game_objects:
             if obj.visible:
                 obj.render()
-            if obj.active():
-                obj.fix_update()
+            if obj.active:
+                obj.fixedUpdate()
                 obj.update()
         self.checkCollisions()
 
@@ -17,7 +17,7 @@ class Scene:
         self.game_objects.append(obj)
 
     def addObjects(self, *objs):
-        self.game_objects.append(*objs)
+        self.game_objects.extend(*objs)
 
     def removeObject(self, obj):
         self.game_objects.remove(obj)

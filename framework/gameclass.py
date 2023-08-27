@@ -53,7 +53,7 @@ class Game:
         self.activeScene = newscene
 
     def addToScene(self, *objs):
-        self.activeScene.addObjects(*objs)
+        self.activeScene.addObjects(objs)
 
     def run(self, framerate: float = 60.0):
         try:
@@ -65,6 +65,7 @@ class Game:
                         self.running = False
                         exit()
 
+                self.activeScene.update()
                 self.loop()
 
                 pygame.display.flip()
