@@ -52,8 +52,6 @@ class CollisionHandler:
     def snapbackCollision(h1, h2):
         collision = CollisionHandler.isCollision(h1, h2)
 
-        if not collision.is_none():
-            print(collision)
         if collision.is_none():
             return collision
         
