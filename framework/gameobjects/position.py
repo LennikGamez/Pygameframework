@@ -9,3 +9,7 @@ class Position2D(Dummy):
         self.position = pos
         self.last_position = self.position.copy()
         self.size = Vector()
+
+    def fixedUpdate(self):
+        self.last_position = self.position.copy()
+        return super().fixedUpdate()

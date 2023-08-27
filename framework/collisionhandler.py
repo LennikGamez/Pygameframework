@@ -108,17 +108,17 @@ class CollisionHandler:
     
 
 def left_right_jump(h1, h2):
-    if h1.old_rect.right <= h2.rect.left and h1.rect.right >= h2.rect.left:
+    if h1.oldRight() <= h2.left() and h1.right() >= h2.left():
         return True
 
 def top_bottom_jump(h1,h2):
-    if h1.old_rect.bottom <= h2.rect.top and h1.rect.bottom >= h2.rect.top:
+    if h1.oldBottom() <= h2.top() and h1.bottom() >= h2.top():
         return True
 
 def right_left_jump(h1, h2):
-    if h1.old_rect.left >= h2.rect.right and h1.rect.left <= h2.rect.right:
+    if h1.oldLeft() >= h2.right() and h1.left() <= h2.right():
         return True
 
 def bottom_top_jump(h1,h2):
-    if h1.old_rect.top >= h2.rect.bottom and h1.rect.top <= h2.rect.bottom:
+    if h1.oldTop() >= h2.bottom() and h1.top() <= h2.bottom():
         return True

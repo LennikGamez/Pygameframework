@@ -12,53 +12,37 @@ class HitBox(Position2D):
         self.rect = pygame.Rect(self.position.x, self.position.y, self.size.x, self.size.y)
         self.old_rect = self.rect.copy()
 
-    def fixedUpdate(self):
-        self.updateRects()
-
-        return super().fixedUpdate()
-
     def render(self):
         Render.rect(self.position, self.size.x, self.size.y)
 
-    def updateOldRect(self):
-        self.old_rect = self.rect.copy()
-
-    def updateCurrentRect(self):
-        self.rect.topleft = self.position.to_tuple()
-        self.rect.width = self.size.x
-        self.rect.height = self.size.y
-
-    def updateRects(self):
-        self.updateOldRect()
-        self.updateCurrentRect()
 
     def oldRight(self):
-        return self.old_rect.right
+        return self.last_position.x + self.size.x
 
     def oldLeft(self):
-        return self.old_rect.left
+        return self.last_position.x
     
     def oldTop(self):
-        return self.old_rect.top
+        return self.last_position.y
     
     def oldBottom(self):
-        return self.old_rect.bottom
+        return self.last_position.y + self.size.y
     
     def oldCenter(self):
-        return tuple2vec(self.old_rect.center)
+        return self.last_position + self.size/2
 
 
     def right(self):
-        return self.rect.right
+        return self.position.x + self.size.x
 
     def left(self):
-        return self.rect.left
+        return self.position.x
     
     def top(self):
-        return self.rect.top
+        return self.position.y
     
     def bottom(self):
-        return self.rect.bottom
+        return self.position.y + self.size.y
     
     def center(self):
-        return tuple2vec(self.rect.center)
+        return self.position+self.size/2

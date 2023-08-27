@@ -15,19 +15,17 @@ class App(Game):
         self.addToScene(self.player, self.collider1)
     def loop(self):
         """ Main Loop """
-
+        speed = 300
         if Keyboard.pressed(pygame.K_LEFT):
-            self.player.position.x -= 800 * Game.DELTA
+            self.player.position.x -= speed * Game.DELTA
         if Keyboard.pressed(pygame.K_RIGHT):
-            self.player.position.x += 400 * Game.DELTA
+            self.player.position.x += speed * Game.DELTA
         if Keyboard.pressed(pygame.K_UP):
-            self.player.position.y -= 100 * Game.DELTA
+            self.player.position.y -= speed * Game.DELTA
         if Keyboard.pressed(pygame.K_DOWN):
-            self.player.position.y += 100 * Game.DELTA
-            
+            self.player.position.y += speed * Game.DELTA
+
         collision = CollisionHandler.snapbackCollision(self.player, self.collider1)
-        
-        print(self.player.left(),self.player.oldLeft())
 
 g = App()
 g.run(60)
