@@ -4,7 +4,8 @@ from .gameclass import *
 from .render import Render
 from .collisionhandler import CollisionHandler
 from .keyboard import Keyboard
-from .eventhandler import Eventhandler, onKeyUp, onKeyDown
+from .eventhandler import Eventhandler, onKeyUp, onKeyDown, unhandledEvent,\
+    onMouseButtonDown, onMouseButtonUp, onMouseMotion
 
 from .helperfunctions import *
 from .color import Color

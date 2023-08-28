@@ -42,10 +42,6 @@ class App(Game):
             self.collider1.delete()
 
 
-@onKeyUp
-def onPress(key):
-    print(key)
-
 
 if __name__ == "__main__":
     g = App()
