@@ -1,4 +1,3 @@
-
 from enum import Enum, auto
 
 import keyboard
@@ -10,6 +9,7 @@ class CollisionTypes(Enum):
     TOP = auto()
     BOTTOM = auto()
     NONE = auto()
+
 
 class CollisionType:
     def __init__(self, type: CollisionTypes) -> None:
@@ -44,27 +44,33 @@ class CollisionType:
         return f"{self.type}"
 
 
-
-
 class CollisionHandler:
 
     @staticmethod
-    def snapbackCollision(h1, h2):
+    def snapbackCollision(h1, h2, parent=None):
         """Returns CollisionType and sets the position of the Hitbox to seperate it from the collider"""
+
+        object1 = h1
+        if parent is not None:
+            object1 = parent
+            parent.updatePositions()    # calculates the current position for each component since the position could have changed due to other parts of the script
         collision = CollisionHandler.isCollision(h1, h2)
 
         if collision.is_none():
             return collision
-        
+
+
         if collision.is_left():
-            h1.position.x = h2.right()
+            object1.position.x = h2.right() - h1.offset.x
         elif collision.is_right():
-            h1.position.x = h2.position.x - h1.size.x
+            object1.position.x = h2.position.x - h1.size.x - h1.offset.x
         elif collision.is_bottom():
-             h1.position.y = h2.top()- h1.size.x
+            object1.position.y = h2.top() - h1.size.y - h1.offset.y
         elif collision.is_top():
-            h1.position.y = h2.bottom()
-        
+            object1.position.y = h2.bottom() - h1.offset.y
+        if parent is not None:
+            parent.updatePositions()    # prevents jittering
+
         return collision
 
     @staticmethod
@@ -95,35 +101,38 @@ class CollisionHandler:
     def x_overlap(h1, h2):
         """Returns True if h1 and h2 overlap on the x-axis"""
         # h1 colliding from right
-        if h1.right() >= h2.left() and h1.right() <= h2.right() or\
-            h1.left() <= h2.right() and h1.left() >= h2.left() or\
-                h1.left() <= h2.left() and h1.right() >= h2.right(): # h2 inside h1
+        if h1.right() >= h2.left() and h1.right() <= h2.right() or \
+                h1.left() <= h2.right() and h1.left() >= h2.left() or \
+                h1.left() <= h2.left() and h1.right() >= h2.right():  # h2 inside h1
             return True
         return False
-    
+
     @staticmethod
     def y_overlap(h1, h2):
         """Returns True if h1 and h2 overlap on the y-axis"""
         # h1 colliding from right
-        if h1.top() <= h2.bottom() and h1.top() >= h2.top() or\
-            h1.bottom() >= h2.top() and h1.bottom() <= h2.bottom() or\
-                h1.bottom() >= h2.bottom() and h1.top() <= h2.top(): # h2 inside h1
+        if h1.top() <= h2.bottom() and h1.top() >= h2.top() or \
+                h1.bottom() >= h2.top() and h1.bottom() <= h2.bottom() or \
+                h1.bottom() >= h2.bottom() and h1.top() <= h2.top():  # h2 inside h1
             return True
         return False
-    
+
 
 def left_right_jump(h1, h2):
     if h1.oldRight() <= h2.left() and h1.right() >= h2.left():
         return True
 
-def top_bottom_jump(h1,h2):
+
+def top_bottom_jump(h1, h2):
     if h1.oldBottom() <= h2.top() and h1.bottom() >= h2.top():
         return True
+
 
 def right_left_jump(h1, h2):
     if h1.oldLeft() >= h2.right() and h1.left() <= h2.right():
         return True
 
-def bottom_top_jump(h1,h2):
+
+def bottom_top_jump(h1, h2):
     if h1.oldTop() >= h2.bottom() and h1.top() <= h2.bottom():
         return True

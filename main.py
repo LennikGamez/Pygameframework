@@ -5,32 +5,53 @@ import pygame
 from framework import *
 
 
-class Particle(Position2D):
+
+
+class Player(Object):
+
     def __init__(self, pos: Vector):
         super().__init__(pos)
-        self.position += Vector(random.randint(10,200), random.randint(10,200))
-        print(self.position)
+        img = loadImg(
+            r"D:\Documents\GamesAssets\Art\Packs\kenney_boardgameicons\PNG\Double (128px)\character.png").convert_alpha()
+
+        self.sprite = Sprite(self.position, img)
+        self.head = HitBox(self.position, Vector(32,25))
+        self.body = HitBox(self.position, Vector(75,65))
+
+        off = self.head.getCenterToPositionOffset(self.sprite.center()-Vector(0,32))
+
+        self.addComponent(self.sprite)
+        self.addComponent(self.head, off)
+        self.addComponent(self.body, self.body.getCenterToPositionOffset(self.sprite.center()+Vector(0,15)))
 
     def render(self):
-        Render.circle(self.position, 7)
+        super().render()
+        Render.circle(self.sprite.center(),5, color=Color.GREEN)
 
 
 class App(Game):
     def __init__(self, width=500, height=500) -> None:
         super().__init__(width, height)
 
-        # img = loadImg(r"D:\Documents\GamesAssets\Art\Packs\kenney_boardgameicons\PNG\Double (128px)\character.png").convert_alpha()
 
-        self.player = HitBox(Vector(0, 200), Vector(20, 20))
+        self.player = Player(Vector(10, 10))
+        self.player2 = Player(Vector(500, 10))
+        self.player3 = Player(Vector(500, 100))
+        self.player4 = Player(Vector(500, 190))
+        self.player5 = Player(Vector(500, 280))
 
         self.collider1 = HitBox(Vector(250, 200), Vector(50, 50))
+        self.collider1.render = lambda : Render.rect(self.collider1.position, self.collider1.size.x, self.collider1.size.y)
 
-        self.particles = [Particle(Vector(i * 20, 400)) for i in range(10)]
         self.timer = RepeatTimer(1, lambda : print("done"))
-        self.addToScene(self.collider1, self.player, *self.particles)
+        self.addToScene(self.collider1, self.player, self.player2, self.player3, self.player4,self.player5)
 
     def loop(self):
         """ Main Loop """
+        self.player2.position.x -= 100 * Game.DELTA
+        self.player3.position.x -= 100 * Game.DELTA
+        self.player4.position.x -= 100 * Game.DELTA
+        self.player5.position.x -= 100 * Game.DELTA
         speed = 300
         if Keyboard.pressed(pygame.K_LEFT):
             self.player.position.x -= speed * Game.DELTA
@@ -41,9 +62,9 @@ class App(Game):
         if Keyboard.pressed(pygame.K_DOWN):
             self.player.position.y += speed * Game.DELTA
 
-        collision = CollisionHandler.snapbackCollision(self.player, self.collider1)
-        if collision.is_left() and len(self.activeScene.game_objects) > 2:
-            self.collider1.delete()
+        collision = CollisionHandler.snapbackCollision(self.player.body, self.collider1, self.player)
+        ppc = CollisionHandler.snapbackCollision(self.player.body, self.player2.body, self.player)
+        ppc2 = CollisionHandler.snapbackCollision(self.player2.body, self.player.body, self.player2)
 
 @onMouseButtonDown
 def click(e):
@@ -52,7 +73,6 @@ def click(e):
         g.timer.stopTimer()
     else:
         print("start")
-        g.addToScene(Particle(Vector(100,100)))
 
 
 if __name__ == "__main__":

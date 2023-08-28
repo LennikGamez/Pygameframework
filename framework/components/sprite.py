@@ -17,6 +17,7 @@ class Sprite(Position2D):
 
         self.angle = 0
         self.scale = 0
+        self.size = tuple2vec(self.org_img.get_size())
 
     def fixedUpdate(self):
         self.size = tuple2vec(self.org_img.get_size())

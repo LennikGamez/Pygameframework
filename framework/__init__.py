@@ -12,7 +12,8 @@ from .helperfunctions import *
 from .color import Color
 
 #+ Gameobjects +#
-from .gameobjects.dummy import Dummy
-from .gameobjects.hitbox import HitBox
-from .gameobjects.position import Position2D
-from .gameobjects.sprite import Sprite
+from .components.dummy import Dummy
+from .components.hitbox import HitBox
+from .components.position import Position2D
+from .components.sprite import Sprite
+from .components.object import Object

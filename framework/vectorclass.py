@@ -50,6 +50,9 @@ class Vector:
     def __neg__(self):
         return Vector(-self.x, -self.y)
 
+    def __abs__(self):
+        return Vector(abs(self.x), abs(self.y))
+
     def copy(self):
         return Vector(self.x, self.y)
 
