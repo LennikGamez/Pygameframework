@@ -1,8 +1,12 @@
+from ..groupmanager import GroupManager as gm
 class Dummy:
     def __init__(self) -> None:
         self._active = True
         self._visible = True
         self.delete_request = False
+
+    def inGroup(self, groupname):
+        return gm.objInGroup(self, groupname)
 
     def isActive(self):
         return self._active

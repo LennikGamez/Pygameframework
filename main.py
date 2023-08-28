@@ -5,8 +5,6 @@ import pygame
 from framework import *
 
 
-
-
 class Player(Object):
 
     def __init__(self, pos: Vector):
@@ -15,24 +13,19 @@ class Player(Object):
             r"D:\Documents\GamesAssets\Art\Packs\kenney_boardgameicons\PNG\Double (128px)\character.png").convert_alpha()
 
         self.sprite = Sprite(self.position, img)
-        self.head = HitBox(self.position, Vector(32,25))
-        self.body = HitBox(self.position, Vector(75,65))
+        self.head = HitBox(self.position, Vector(32, 25))
+        self.body = HitBox(self.position, Vector(75, 65))
 
-        off = self.head.getCenterToPositionOffset(self.sprite.center()-Vector(0,32))
+        off = self.head.getCenterToPositionOffset(self.sprite.center() - Vector(0, 32))
 
         self.addComponent(self.sprite)
         self.addComponent(self.head, off)
-        self.addComponent(self.body, self.body.getCenterToPositionOffset(self.sprite.center()+Vector(0,15)))
-
-    def render(self):
-        super().render()
-        Render.circle(self.sprite.center(),5, color=Color.GREEN)
+        self.addComponent(self.body, self.body.getCenterToPositionOffset(self.sprite.center() + Vector(0, 15)))
 
 
 class App(Game):
     def __init__(self, width=500, height=500) -> None:
         super().__init__(width, height)
-
 
         self.player = Player(Vector(10, 10))
         self.player2 = Player(Vector(500, 10))
@@ -40,18 +33,20 @@ class App(Game):
         self.player4 = Player(Vector(500, 190))
         self.player5 = Player(Vector(500, 280))
 
-        self.collider1 = HitBox(Vector(250, 200), Vector(50, 50))
-        self.collider1.render = lambda : Render.rect(self.collider1.position, self.collider1.size.x, self.collider1.size.y)
+        GroupManager.addToGroup("Players", self.player2, self.player3, self.player4, self.player5)
 
-        self.timer = RepeatTimer(1, lambda : print("done"))
-        self.addToScene(self.collider1, self.player, self.player2, self.player3, self.player4,self.player5)
+        self.collider1 = HitBox(Vector(250, 200), Vector(50, 50))
+        self.collider1.render = lambda: Render.rect(self.collider1.position, self.collider1.size.x,
+                                                    self.collider1.size.y)
+
+        self.timer = RepeatTimer(1, lambda: print("done"))
+        self.addToScene(self.collider1, self.player, self.player2, self.player3, self.player4, self.player5)
 
     def loop(self):
         """ Main Loop """
-        self.player2.position.x -= 100 * Game.DELTA
-        self.player3.position.x -= 100 * Game.DELTA
-        self.player4.position.x -= 100 * Game.DELTA
-        self.player5.position.x -= 100 * Game.DELTA
+        for p in GroupManager.getGroup("Players"):
+            p.position.x -= 100 * Game.DELTA
+
         speed = 300
         if Keyboard.pressed(pygame.K_LEFT):
             self.player.position.x -= speed * Game.DELTA
@@ -63,8 +58,14 @@ class App(Game):
             self.player.position.y += speed * Game.DELTA
 
         collision = CollisionHandler.snapbackCollision(self.player.body, self.collider1, self.player)
-        ppc = CollisionHandler.snapbackCollision(self.player.body, self.player2.body, self.player)
+
+        for player in GroupManager.getGroup("Players"):
+            CollisionHandler.snapbackCollision(self.player.body, player.body, self.player)
+            CollisionHandler.snapbackCollision(player.body, self.player.body, player)
+
+        ppc = CollisionHandler.snapbackCollision(self.player.head, self.player2.body, self.player)
         ppc2 = CollisionHandler.snapbackCollision(self.player2.body, self.player.body, self.player2)
+
 
 @onMouseButtonDown
 def click(e):

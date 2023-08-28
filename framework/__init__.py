@@ -11,6 +11,7 @@ from .eventhandler import Eventhandler, onKeyUp, onKeyDown, unhandledEvent,\
 from .helperfunctions import *
 from .color import Color
 
+from .groupmanager import GroupManager
 #+ Gameobjects +#
 from .components.dummy import Dummy
 from .components.hitbox import HitBox
