@@ -4,6 +4,7 @@ class Scene:
         self.game_objects += (list(objs))
 
     def update(self):
+        new_game_objects = []
         for obj in self.game_objects:
             if obj.delete_request:
                 self.deleteObject(obj)
@@ -13,6 +14,8 @@ class Scene:
             if obj.isActive():
                 obj.fixedUpdate()
                 obj.update()
+            new_game_objects.append(obj)
+        self.game_objects = new_game_objects
 
     def addObject(self, obj):
         self.game_objects.append(obj)
@@ -20,11 +23,15 @@ class Scene:
     def addObjects(self, *objs):
         self.game_objects.extend(*objs)
 
-    def removeObject(self, obj):
+    def forceRemoveObject(self, obj):
         self.game_objects.remove(obj)
 
-    def popObject(self, index):
+    def forcePopObject(self, index):
         return self.game_objects.pop(index)
+    def popObject(self, index):
+        obj = self.game_objects[index]
+        obj.delete()
+        return obj
 
     def selectObject(self, index):
         try:
@@ -35,5 +42,4 @@ class Scene:
     def deleteObject(self, obj):
         obj.deactivate()
         obj.hide()
-        self.removeObject(obj)
         obj.delete_request = False

@@ -1,9 +1,15 @@
+import random
+
+import pygame
+
 from framework import *
 
 
 class Particle(Position2D):
-    def __int__(self, pos: Vector):
-        super().__init__(self, pos)
+    def __init__(self, pos: Vector):
+        super().__init__(pos)
+        self.position += Vector(random.randint(10,200), random.randint(10,200))
+        print(self.position)
 
     def render(self):
         Render.circle(self.position, 7)
@@ -36,9 +42,7 @@ class App(Game):
             self.player.position.y += speed * Game.DELTA
 
         collision = CollisionHandler.snapbackCollision(self.player, self.collider1)
-        if collision.is_left():
-            for p in self.particles:
-                p.delete()
+        if collision.is_left() and len(self.activeScene.game_objects) > 2:
             self.collider1.delete()
 
 @onMouseButtonDown
@@ -48,7 +52,7 @@ def click(e):
         g.timer.stopTimer()
     else:
         print("start")
-        g.timer.startTimer()
+        g.addToScene(Particle(Vector(100,100)))
 
 
 if __name__ == "__main__":
