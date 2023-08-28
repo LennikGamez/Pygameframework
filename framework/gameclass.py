@@ -5,7 +5,7 @@ from .eventhandler import Eventhandler
 from .helperfunctions import tuple2vec
 from .vectorclass import Vector
 from .scene import Scene
-from .keyboard import Keyboard
+from .timer.timermanager import TimerManager as TM
 
 class Game:
     DELTA = 0
@@ -43,7 +43,8 @@ class Game:
         Game.DISPLAY.fill(self.background_color)
 
     def __onExit(self):
-        pass
+        if len(TM.activeTimers) > 0:
+            TM.stopTimers()
 
     def onExit(self):
         """Overwrite and insert your code that executes after you close the game"""

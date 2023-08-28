@@ -20,7 +20,7 @@ class App(Game):
         self.collider1 = HitBox(Vector(250, 200), Vector(50, 50))
 
         self.particles = [Particle(Vector(i * 20, 400)) for i in range(10)]
-
+        self.timer = RepeatTimer(1, lambda : print("done"))
         self.addToScene(self.collider1, self.player, *self.particles)
 
     def loop(self):
@@ -41,6 +41,14 @@ class App(Game):
                 p.delete()
             self.collider1.delete()
 
+@onMouseButtonDown
+def click(e):
+    if e.button == 1:
+        print("stop")
+        g.timer.stopTimer()
+    else:
+        print("start")
+        g.timer.startTimer()
 
 
 if __name__ == "__main__":
