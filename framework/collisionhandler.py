@@ -70,6 +70,10 @@ class CollisionHandler:
     @staticmethod
     def isCollision(h1, h2):
         """Return a CollisonType object which holds information about the place of collision for example the collision happend on the left of the object"""
+
+        if not h1.isActive() or not h2.isActive():
+            return CollisionType(CollisionTypes.NONE)
+
         # CollisionType is from the perspective of first hitbox
         if left_right_jump(h1, h2) and CollisionHandler.y_overlap(h1, h2):
             return CollisionType(CollisionTypes.RIGHT)

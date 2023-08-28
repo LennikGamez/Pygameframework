@@ -1,18 +1,28 @@
-
 from framework import *
+
+
+class Particle(Position2D):
+    def __int__(self, pos: Vector):
+        super().__init__(self, pos)
+
+    def render(self):
+        Render.circle(self.position, 7)
 
 
 class App(Game):
     def __init__(self, width=500, height=500) -> None:
         super().__init__(width, height)
 
-        #img = loadImg(r"D:\Documents\GamesAssets\Art\Packs\kenney_boardgameicons\PNG\Double (128px)\character.png").convert_alpha()
-        
-        
-        self.player = HitBox(Vector(0, 200),Vector(20,20))
+        # img = loadImg(r"D:\Documents\GamesAssets\Art\Packs\kenney_boardgameicons\PNG\Double (128px)\character.png").convert_alpha()
 
-        self.collider1 = HitBox(Vector(250,200), Vector(50,50))
-        self.addToScene(self.player, self.collider1)
+        self.player = HitBox(Vector(0, 200), Vector(20, 20))
+
+        self.collider1 = HitBox(Vector(250, 200), Vector(50, 50))
+
+        self.particles = [Particle(Vector(i * 20, 400)) for i in range(10)]
+
+        self.addToScene(self.collider1, self.player, *self.particles)
+
     def loop(self):
         """ Main Loop """
         speed = 300
@@ -25,8 +35,18 @@ class App(Game):
         if Keyboard.pressed(pygame.K_DOWN):
             self.player.position.y += speed * Game.DELTA
 
-        collision = CollisionHandler.isOverlap(self.player, self.collider1)
-        print(collision)
+        collision = CollisionHandler.snapbackCollision(self.player, self.collider1)
+        if collision.is_left():
+            for p in self.particles:
+                p.delete()
+            self.collider1.delete()
 
-g = App()
-g.run(60)
+
+@onKeyUp
+def onPress(key):
+    print(key)
+
+
+if __name__ == "__main__":
+    g = App()
+    g.run(60)

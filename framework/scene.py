@@ -1,17 +1,18 @@
-
 class Scene:
     def __init__(self, *objs) -> None:
         self.game_objects = []
         self.game_objects += (list(objs))
-        
+
     def update(self):
         for obj in self.game_objects:
-            if obj.visible:
+            if obj.delete_request:
+                self.deleteObject(obj)
+                continue
+            if obj.isVisible():
                 obj.render()
-            if obj.active:
+            if obj.isActive():
                 obj.fixedUpdate()
                 obj.update()
-        self.checkCollisions()
 
     def addObject(self, obj):
         self.game_objects.append(obj)
@@ -29,7 +30,10 @@ class Scene:
         try:
             return self.game_objects[index]
         except IndexError:
-            raise Exception(f"This index is out of range! INDEX: {index}; MAXINDEX: {len(self.game_objects)-1}")
-        
-    def checkCollisions(self):
-        pass
+            raise Exception(f"This index is out of range! INDEX: {index}; MAXINDEX: {len(self.game_objects) - 1}")
+
+    def deleteObject(self, obj):
+        obj.deactivate()
+        obj.hide()
+        self.removeObject(obj)
+        obj.delete_request = False

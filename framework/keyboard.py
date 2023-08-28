@@ -10,11 +10,10 @@ class Keyboard:
         """
         return pygame.key.key_code(key)
 
-
     @staticmethod
     def getKeys():
         return pygame.key.get_pressed()
-    
+
     @staticmethod
     def pressed(key):
         if Keyboard.getKeys()[key]:

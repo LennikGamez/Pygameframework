@@ -1,9 +1,11 @@
 import pygame
 
 from .color import Color
+from .eventhandler import Eventhandler
 from .helperfunctions import tuple2vec
 from .vectorclass import Vector
 from .scene import Scene
+from .keyboard import Keyboard
 
 class Game:
     DELTA = 0
@@ -59,11 +61,8 @@ class Game:
         try:
             while self.running:
                 self.drawBackground()
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        self.running = False
-                        exit()
+
+                Eventhandler.handleEvents(self)
 
                 self.activeScene.update()
                 self.loop()
