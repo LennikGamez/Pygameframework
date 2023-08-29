@@ -1,7 +1,5 @@
 import random
 
-import pygame
-
 from framework import *
 from framework.audio import playSound
 
@@ -44,6 +42,7 @@ class App(Game):
         self.addToScene(self.collider1, self.player, self.player2, self.player3, self.player4, self.player5)
 
     def loop(self):
+        Render.text(Vector(250,15),"0000")
         """ Main Loop """
         for p in GroupManager.getGroup("Players"):
             p.position.x -= 100 * Game.DELTA

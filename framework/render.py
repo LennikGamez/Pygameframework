@@ -8,6 +8,10 @@ from .vectorclass import Vector
 
 
 class Render:
+    pygame.font.init()
+    FONTS = {
+        "default": pygame.font.SysFont("Comic Sans MS", 30)
+    }
 
     @staticmethod
     def line(pos1: Vector, pos2: Vector, color=Color.WHITE, width=1):
@@ -36,3 +40,10 @@ class Render:
         pos -= tuple2vec(img.get_size())/2
 
         Game.DISPLAY.blit(img, pos.to_tuple())
+
+    @staticmethod
+    def text(pos: Vector, text, antialiasing=False, font=FONTS.get("default"), color=Color.WHITE, bgcolor=None):
+        surf = font.render(str(text), antialiasing, color, bgcolor)
+        rect = surf.get_rect()
+        rect.center = pos.to_tuple()
+        Game.DISPLAY.blit(surf, rect)
