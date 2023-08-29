@@ -3,6 +3,7 @@ import random
 import pygame
 
 from framework import *
+from framework.audio import playSound
 
 
 class Player(Object):
@@ -58,13 +59,9 @@ class App(Game):
             self.player.position.y += speed * Game.DELTA
 
         collision = CollisionHandler.snapbackCollision(self.player.body, self.collider1, self.player)
-
         for player in GroupManager.getGroup("Players"):
-            CollisionHandler.snapbackCollision(self.player.body, player.body, self.player)
-            CollisionHandler.snapbackCollision(player.body, self.player.body, player)
-
-        ppc = CollisionHandler.snapbackCollision(self.player.head, self.player2.body, self.player)
-        ppc2 = CollisionHandler.snapbackCollision(self.player2.body, self.player.body, self.player2)
+            CollisionHandler.snapbackCollision(self.player.head, player.body, self.player)
+            CollisionHandler.snapbackCollision(player.body, self.player.head, player)
 
 
 @onMouseButtonDown
