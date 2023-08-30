@@ -72,16 +72,16 @@ class App(Game):
         speed = 300
         if Keyboard.pressed(pygame.K_LEFT):
             self.player.position.x -= speed * Game.DELTA
-            g.p.addParticles([g.player.body.center(), 7, Color.WHITE])
+            g.p.addParticles([g.player.body.center()+Vector(0,25), 7, Color.WHITE])
         if Keyboard.pressed(pygame.K_RIGHT):
             self.player.position.x += speed * Game.DELTA
-            g.p.addParticles([g.player.body.center(), 7, Color.WHITE])
+            g.p.addParticles([g.player.body.center()+Vector(0,25), 7, Color.WHITE])
         if Keyboard.pressed(pygame.K_UP):
             self.player.position.y -= speed * Game.DELTA
-            g.p.addParticles([g.player.body.center(), 7, Color.WHITE])
+            g.p.addParticles([g.player.body.center()+Vector(0,25), 7, Color.WHITE])
         if Keyboard.pressed(pygame.K_DOWN):
             self.player.position.y += speed * Game.DELTA
-            g.p.addParticles([g.player.body.center(), 7, Color.WHITE])
+            g.p.addParticles([g.player.body.center()+Vector(0,25), 7, Color.WHITE])
 
         #collision = CollisionHandler.snapbackCollision(self.player.body, self.collider1, self.player)
         for player in GroupManager.getGroup("Players"):
