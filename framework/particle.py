@@ -6,6 +6,7 @@ from framework.vectorclass import Vector
 class Particle:
     def __init__(self):
         self.particles = []
+        self.emitting = False
 
     def renderParticle(self, particle):
         """Overwriteable"""

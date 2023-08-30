@@ -1,3 +1,6 @@
+from framework.particle import Particle
+
+
 class Scene:
     def __init__(self, *objs) -> None:
         self.game_objects = []

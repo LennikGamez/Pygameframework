@@ -4,6 +4,7 @@ class Dummy:
         self._active = True
         self._visible = True
         self.delete_request = False
+        self.layer = 0
 
     def inGroup(self, groupname):
         return gm.objInGroup(self, groupname)

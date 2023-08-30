@@ -15,4 +15,4 @@ class HitBox(Position2D):
 
     def render(self):
         """Overwrite"""
-        Render.rect(self.position, self.size.x, self.size.y, color=Color.BLUE)
+        Render.rect(self.position, self.size.x, self.size.y, color=Color.RED, layer=self.layer)

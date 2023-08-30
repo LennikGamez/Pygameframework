@@ -1,16 +1,16 @@
 import random
 
 from framework import *
-from framework.audio import playSound
+from framework.screen import Screen
 
 class DustParticle(Particle):
     # [pos: Vector, radius, color:Color]
     def renderParticle(self, particle):
-        Render.circle(particle[0], particle[1], color=particle[2])
+        Render.circle(particle[0], particle[1], color=particle[2], layer=0)
         particle[0] += Vector(random.randint(-2, 2), random.randint(-2, 2))
         particle[1] -= 0.05+ random.random() * 0.2
-        particle[2] = Color.RGB(particle[2][0], particle[2][1]-1.3, particle[2][2]-2)
-        if particle[1] <= 0:
+        particle[2] = Color.RGB(0, particle[2][1]-5, 0)
+        if particle[1] <= 0 or particle[2][1] <= 0:
             self.deleteParticle(particle)
 
 
@@ -27,14 +27,16 @@ class Player(Object):
 
         off = self.head.getCenterToPositionOffset(self.sprite.center() - Vector(0, 32))
 
+        self.layer = 1
+
         self.addComponent(self.sprite)
         self.addComponent(self.head, off)
         self.addComponent(self.body, self.body.getCenterToPositionOffset(self.sprite.center() + Vector(0, 15)))
 
 
 class App(Game):
-    def __init__(self, width=500, height=500) -> None:
-        super().__init__(width, height)
+    def __init__(self, width=500, height=500, layers=2) -> None:
+        super().__init__(width, height, layers)
 
         self.p = DustParticle()
         self.player = Player(Vector(10, 10))
@@ -46,13 +48,21 @@ class App(Game):
         GroupManager.addToGroup("Players", self.player2, self.player3, self.player4, self.player5)
 
         self.collider1 = HitBox(Vector(250, 200), Vector(50, 50))
+        self.collider1.layer = 1
         self.collider1.render = lambda: Render.rect(self.collider1.position, self.collider1.size.x,
-                                                    self.collider1.size.y)
+                                                    self.collider1.size.y, layer=self.collider1.layer)
 
         self.timer = RepeatTimer(1, lambda: print("done"))
         self.addToScene(self.collider1, self.player, self.player2, self.player3, self.player4, self.player5)
 
+    def drawBackground(self):
+        Screen.DISPLAY.fill(Color.BLUE)
+        # img = loadImg(r"./City.jpg").convert_alpha()
+        # self.display(img, Vector(0,0))
+
     def loop(self):
+
+
         self.p.emit()
         Render.text(Vector(250,15),"0000")
         """ Main Loop """
@@ -73,7 +83,7 @@ class App(Game):
             self.player.position.y += speed * Game.DELTA
             g.p.addParticles([g.player.body.center(), 7, Color.WHITE])
 
-        collision = CollisionHandler.snapbackCollision(self.player.body, self.collider1, self.player)
+        #collision = CollisionHandler.snapbackCollision(self.player.body, self.collider1, self.player)
         for player in GroupManager.getGroup("Players"):
             CollisionHandler.snapbackCollision(self.player.head, player.body, self.player)
             CollisionHandler.snapbackCollision(player.body, self.player.head, player)

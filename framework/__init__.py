@@ -1,6 +1,6 @@
 import pygame
 
-from .gameclass import *
+from .gameclass import Game
 from .render import Render
 from .timer.timer import RepeatTimer, OneShotTimer
 from .collisionhandler import CollisionHandler

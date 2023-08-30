@@ -2,9 +2,9 @@
 import pygame
 
 from framework.helperfunctions import tuple2vec
-from .gameclass import Game
 from .color import Color
 from .vectorclass import Vector
+from .screen import Screen
 
 
 class Render:
@@ -14,12 +14,12 @@ class Render:
     }
 
     @staticmethod
-    def line(pos1: Vector, pos2: Vector, color=Color.WHITE, width=1):
-        return pygame.draw.line(Game.DISPLAY,color,pos1.to_tuple(),pos2.to_tuple(),width)
+    def line(pos1: Vector, pos2: Vector, color=Color.WHITE, width=1, layer=0):
+        return pygame.draw.line(Screen.getLayer(layer),color,pos1.to_tuple(),pos2.to_tuple(),width)
 
     @staticmethod
-    def rect(pos: Vector, w, h, width=0, color=Color.WHITE,border_radius=-1, bottom_left_radius=-1, bottom_right_radius=-1, top_left_radius=-1, top_right_radius=-1):
-        return pygame.draw.rect(Game.DISPLAY,color,pygame.Rect(
+    def rect(pos: Vector, w, h, width=0, color=Color.WHITE,border_radius=-1, bottom_left_radius=-1, bottom_right_radius=-1, top_left_radius=-1, top_right_radius=-1, layer=0):
+        return pygame.draw.rect(Screen.getLayer(layer),color,pygame.Rect(
             pos.x, pos.y,
             w, h
         ), width=width,
@@ -31,19 +31,19 @@ class Render:
         )
     
     @staticmethod
-    def circle(pos: Vector, r, color=Color.WHITE, width=0):
-        pygame.draw.circle(Game.DISPLAY,color,pos.to_tuple(),r, width=width)
+    def circle(pos: Vector, r, color=Color.WHITE, width=0, layer=0):
+        pygame.draw.circle(Screen.getLayer(layer),color,pos.to_tuple(),r, width=width)
 
 
     @staticmethod
-    def image(pos: Vector, img):
+    def image(pos: Vector, img, layer=0):
         pos -= tuple2vec(img.get_size())/2
 
-        Game.DISPLAY.blit(img, pos.to_tuple())
+        Screen.getLayer(layer).blit(img, pos.to_tuple())
 
     @staticmethod
-    def text(pos: Vector, text, antialiasing=False, font=FONTS.get("default"), color=Color.WHITE, bgcolor=None):
+    def text(pos: Vector, text, antialiasing=False, font=FONTS.get("default"), color=Color.WHITE, bgcolor=None, layer=0):
         surf = font.render(str(text), antialiasing, color, bgcolor)
         rect = surf.get_rect()
         rect.center = pos.to_tuple()
-        Game.DISPLAY.blit(surf, rect)
+        Screen.getLayer(layer).blit(surf, rect)

@@ -10,7 +10,7 @@ class Object(Position2D):
         super().__init__(position)
 
         self.components: list = []
-    def addComponent(self, component, position_offset = Vector()):
+    def addComponent(self, component, position_offset = Vector(), layer=-1):
         # match component:
         #     case HitBox():
         #         self.components["Hitboxes"].append(component)
@@ -22,6 +22,10 @@ class Object(Position2D):
         #         self.components["Dummies"].append(component)
         #
         component.offset = position_offset
+        if layer == -1:
+            component.layer = self.layer
+        else:
+            component.layer = layer
         self.components.append(component)
 
     def removeComponent(self, component):
