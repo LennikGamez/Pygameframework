@@ -3,6 +3,16 @@ import random
 from framework import *
 from framework.audio import playSound
 
+class DustParticle(Particle):
+    # [pos: Vector, radius, color:Color]
+    def renderParticle(self, particle):
+        Render.circle(particle[0], particle[1], color=particle[2])
+        particle[0] += Vector(random.randint(-2, 2), random.randint(-2, 2))
+        particle[1] -= 0.05+ random.random() * 0.2
+        particle[2] = Color.RGB(particle[2][0], particle[2][1]-1.3, particle[2][2]-2)
+        if particle[1] <= 0:
+            self.deleteParticle(particle)
+
 
 class Player(Object):
 
@@ -26,6 +36,7 @@ class App(Game):
     def __init__(self, width=500, height=500) -> None:
         super().__init__(width, height)
 
+        self.p = DustParticle()
         self.player = Player(Vector(10, 10))
         self.player2 = Player(Vector(500, 10))
         self.player3 = Player(Vector(500, 100))
@@ -42,6 +53,7 @@ class App(Game):
         self.addToScene(self.collider1, self.player, self.player2, self.player3, self.player4, self.player5)
 
     def loop(self):
+        self.p.emit()
         Render.text(Vector(250,15),"0000")
         """ Main Loop """
         for p in GroupManager.getGroup("Players"):
@@ -50,12 +62,16 @@ class App(Game):
         speed = 300
         if Keyboard.pressed(pygame.K_LEFT):
             self.player.position.x -= speed * Game.DELTA
+            g.p.addParticles([g.player.body.center(), 7, Color.WHITE])
         if Keyboard.pressed(pygame.K_RIGHT):
             self.player.position.x += speed * Game.DELTA
+            g.p.addParticles([g.player.body.center(), 7, Color.WHITE])
         if Keyboard.pressed(pygame.K_UP):
             self.player.position.y -= speed * Game.DELTA
+            g.p.addParticles([g.player.body.center(), 7, Color.WHITE])
         if Keyboard.pressed(pygame.K_DOWN):
             self.player.position.y += speed * Game.DELTA
+            g.p.addParticles([g.player.body.center(), 7, Color.WHITE])
 
         collision = CollisionHandler.snapbackCollision(self.player.body, self.collider1, self.player)
         for player in GroupManager.getGroup("Players"):
@@ -67,9 +83,9 @@ class App(Game):
 def click(e):
     if e.button == 1:
         print("stop")
-        g.timer.stopTimer()
     else:
         print("start")
+
 
 
 if __name__ == "__main__":

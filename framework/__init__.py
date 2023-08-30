@@ -12,6 +12,8 @@ from .helperfunctions import *
 from .color import Color
 
 from .groupmanager import GroupManager
+
+from .particle import Particle
 #+ Gameobjects +#
 from .components.dummy import Dummy
 from .components.hitbox import HitBox
