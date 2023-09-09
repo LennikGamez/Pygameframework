@@ -25,7 +25,7 @@ class Sprite(Position2D):
         return super().fixedUpdate()
 
     def render(self, camera=True):
-        Render.image(self.position+self.size/2, self.img, camera=camera)
+        Render.image(self.position+self.size/2, self.img, layer=self.layer, camera=camera)
 
     def setRotation(self, angle):
         self.angle = angle

@@ -1,5 +1,5 @@
 from .vectorclass import Vector
-from .gameclass import Game
+from .screen import Screen
 
 
 class Camera:
@@ -7,10 +7,8 @@ class Camera:
     target = None
 
     @staticmethod
-    def applyOffset(position: Vector):
-        if Camera.target is None:
-            return position
-        return ((position - Camera.off_set) + Game.getSize()/2) - Camera.target.size/2
+    def applyCamera(pos):
+        return (pos - Camera.off_set) + Screen.getSize()/2 - Camera.target.size/2 if Camera.target is not None else pos
 
     @staticmethod
     def update_offset():

@@ -1,6 +1,6 @@
 import pygame
 
-from .gameclass import *
+from .gameclass import Game
 from .render import Render
 from .timer.timer import RepeatTimer, OneShotTimer
 from .collisionhandler import CollisionHandler
@@ -12,6 +12,8 @@ from .helperfunctions import *
 from .color import Color
 
 from .groupmanager import GroupManager
+
+from .particle import Particle
 #+ Gameobjects +#
 from .components.dummy import Dummy
 from .components.hitbox import HitBox

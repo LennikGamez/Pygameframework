@@ -1,9 +1,10 @@
 from ..groupmanager import GroupManager as gm
 class Dummy:
     def __init__(self) -> None:
-        self._active = False
+        self._active = True
         self._visible = True
         self.delete_request = False
+        self.layer = 0
 
     def inGroup(self, groupname):
         return gm.objInGroup(self, groupname)
@@ -26,12 +27,10 @@ class Dummy:
     def hide(self):
         self._visible = False
 
-    def render(self, camera=True):
-        """Overwrite"""
+    def render(self):
         pass
 
     def update(self):
-        """Overwrite"""
         pass
 
     def fixedUpdate(self):
