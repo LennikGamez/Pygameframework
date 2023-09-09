@@ -26,6 +26,11 @@ class Object(Position2D):
             component.layer = self.layer
         else:
             component.layer = layer
+
+        if component.right() > self.right():
+            self.size.x = component.size.x
+        if component.bottom() > self.bottom():
+            self.size.y = component.size.y
         self.components.append(component)
 
     def removeComponent(self, component):
@@ -53,9 +58,9 @@ class Object(Position2D):
             component.position = self.position + component.offset
             component.fixedUpdate()
 
-    def render(self):
+    def render(self, camera=True):
         super().render()
         for component in self.components:
             if not isinstance(component, Dummy):
                 continue
-            component.render()
+            component.render(camera)

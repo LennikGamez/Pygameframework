@@ -2,11 +2,12 @@ import random
 
 from framework import *
 from framework.screen import Screen
+from framework.camera import Camera
 
 class DustParticle(Particle):
     # [pos: Vector, radius, color:Color]
     def renderParticle(self, particle):
-        Render.circle(particle[0], particle[1], color=particle[2], layer=0)
+        Render.circle(particle[0], particle[1], color=particle[2], layer=0, camera=True)
         particle[0] += Vector(random.randint(-2, 2), random.randint(-2, 2))
         particle[1] -= 0.05+ random.random() * 0.2
         particle[2] = Color.RGB(0, particle[2][1]-5, 0)
@@ -33,7 +34,6 @@ class Player(Object):
         self.addComponent(self.head, off)
         self.addComponent(self.body, self.body.getCenterToPositionOffset(self.sprite.center() + Vector(0, 15)))
 
-
 class App(Game):
     def __init__(self, width=500, height=500, layers=2) -> None:
         super().__init__(width, height, layers)
@@ -50,7 +50,7 @@ class App(Game):
         self.collider1 = HitBox(Vector(250, 200), Vector(50, 50))
         self.collider1.layer = 1
         self.collider1.render = lambda: Render.rect(self.collider1.position, self.collider1.size.x,
-                                                    self.collider1.size.y, layer=self.collider1.layer)
+                                                    self.collider1.size.y, layer=self.collider1.layer, camera=True)
 
         self.timer = RepeatTimer(1, lambda: print("done"))
         self.addToScene(self.collider1, self.player, self.player2, self.player3, self.player4, self.player5)
@@ -61,7 +61,10 @@ class App(Game):
         # self.display(img, Vector(0,0))
 
     def loop(self):
-
+        Render.line(Vector(250,0), Vector(250,500), layer=1, color=Color.RED)
+        Render.line(Vector(0,250), Vector(500,250), layer=1, color=Color.RED)
+        Camera.set_target(self.player)
+        Camera.update_offset()
 
         self.p.emit()
         Render.text(Vector(250,15),"0000")
@@ -83,7 +86,7 @@ class App(Game):
             self.player.position.y += speed * Game.DELTA
             g.p.addParticles([g.player.body.center()+Vector(0,25), 7, Color.WHITE])
 
-        #collision = CollisionHandler.snapbackCollision(self.player.body, self.collider1, self.player)
+        collision = CollisionHandler.snapbackCollision(self.player.body, self.collider1, self.player)
         for player in GroupManager.getGroup("Players"):
             CollisionHandler.snapbackCollision(self.player.head, player.body, self.player)
             CollisionHandler.snapbackCollision(player.body, self.player.head, player)

@@ -14,8 +14,8 @@ class HitBox(Position2D):
         self.old_rect = self.rect.copy()
         self.debug = debug
 
-    def render(self):
+    def render(self, camera=True):
         """Overwrite"""
         if not self.debug:
             return
-        Render.rect(self.position, self.size.x, self.size.y, color=Color.RED, layer=self.layer)
+        Render.rect(self.position, self.size.x, self.size.y, color=Color.RED, layer=self.layer, camera=camera)
