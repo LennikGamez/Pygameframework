@@ -1,7 +1,7 @@
 from ..groupmanager import GroupManager as gm
 class Dummy:
     def __init__(self) -> None:
-        self._active = True
+        self._active = False
         self._visible = True
         self.delete_request = False
 
@@ -26,10 +26,12 @@ class Dummy:
     def hide(self):
         self._visible = False
 
-    def render(self):
+    def render(self, camera=True):
+        """Overwrite"""
         pass
 
     def update(self):
+        """Overwrite"""
         pass
 
     def fixedUpdate(self):

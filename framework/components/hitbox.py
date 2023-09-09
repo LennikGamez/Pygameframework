@@ -13,6 +13,6 @@ class HitBox(Position2D):
         self.rect = pygame.Rect(self.position.x, self.position.y, self.size.x, self.size.y)
         self.old_rect = self.rect.copy()
 
-    def render(self):
+    def render(self, camera=True):
         """Overwrite"""
-        Render.rect(self.position, self.size.x, self.size.y, color=Color.BLUE)
+        Render.rect(self.position, self.size.x, self.size.y, color=Color.BLUE, camera=camera)

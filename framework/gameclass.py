@@ -6,7 +6,6 @@ from .helperfunctions import tuple2vec
 from .vectorclass import Vector
 from .scene import Scene
 from .timer.timermanager import TimerManager as TM
-
 class Game:
     DELTA = 0
     DISPLAY = None
@@ -56,7 +55,9 @@ class Game:
         self.activeScene = newscene
 
     def addToScene(self, *objs):
-        self.activeScene.addObjects(objs)
+        for o in objs:
+            o.activate()
+            self.activeScene.addObject(o)
 
     def run(self, framerate: float = 60.0):
         try:

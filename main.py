@@ -1,6 +1,7 @@
 import random
 
 from framework import *
+from framework.camera import Camera
 from framework.audio import playSound
 
 
@@ -20,7 +21,8 @@ class Player(Object):
         self.addComponent(self.sprite)
         self.addComponent(self.head, off)
         self.addComponent(self.body, self.body.getCenterToPositionOffset(self.sprite.center() + Vector(0, 15)))
-
+    def render(self):
+        super().render(True)
 
 class App(Game):
     def __init__(self, width=500, height=500) -> None:
@@ -39,10 +41,16 @@ class App(Game):
                                                     self.collider1.size.y)
 
         self.timer = RepeatTimer(1, lambda: print("done"))
-        self.addToScene(self.collider1, self.player, self.player2, self.player3, self.player4, self.player5)
+        self.addToScene(self.collider1, self.player)
+        #self.addToScene(self.player2, self.player3, self.player4, self.player5)
 
     def loop(self):
-        Render.text(Vector(250,15),"0000")
+        Camera.set_target(self.player)
+        Camera.update_offset()
+
+        Render.line(Vector(0,250), Vector(500,250), camera=False)
+        Render.line(Vector(250,0), Vector(250,500), camera=False)
+        Render.text(Vector(250,15),"0000", camera=False)
         """ Main Loop """
         for p in GroupManager.getGroup("Players"):
             p.position.x -= 100 * Game.DELTA
