@@ -21,3 +21,4 @@ from framework.components.gameobjects.position import Position2D
 
 #+ Guiobjects +#
 from framework.components.guiobjects.button import Button
+from framework.components.guiobjects.textinputfield import TextInput

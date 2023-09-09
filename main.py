@@ -46,6 +46,7 @@ class App(Game):
         self.player5 = Player(Vector(500, 280))
 
         self.start_btn = Button(Screen.center(), Vector(100,75))
+        self.inp = TextInput(Vector(250,100), Vector(200,75))
 
         GroupManager.addToGroup("Players", self.player2, self.player3, self.player4, self.player5)
 
@@ -56,7 +57,7 @@ class App(Game):
 
         self.timer = RepeatTimer(1, lambda: print("done"))
         self.addToScene(self.collider1, self.player, self.player2, self.player3, self.player4, self.player5)
-        self.addToScene(self.start_btn)
+        self.addToScene(self.start_btn, self.inp)
     def drawBackground(self):
         Screen.DISPLAY.fill(Color.BLUE)
         # img = loadImg(r"./City.jpg").convert_alpha()
