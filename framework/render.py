@@ -54,10 +54,16 @@ class Render:
         Screen.getLayer(layer).blit(img, pos.to_tuple())
 
     @staticmethod
-    def text(pos: Vector, text, antialiasing=False, font=FONTS.get("default"), color=Color.WHITE, bgcolor=None, layer=0, camera=False):
+    def text(pos: Vector, text, antialiasing=False, font=FONTS.get("default"), orientation="c" ,color=Color.WHITE, bgcolor=None, layer=0, camera=False):
         if camera:
             pos = Camera.applyCamera(pos)
         surf = font.render(str(text), antialiasing, color, bgcolor)
         rect = surf.get_rect()
-        rect.center = pos.to_tuple()
+        match orientation:
+            case "c":
+                rect.center = pos.to_tuple()
+            case "l":
+                rect.topleft = pos.to_tuple()
+            case "r":
+                rect.topright = pos.to_tuple()
         Screen.getLayer(layer).blit(surf, rect)

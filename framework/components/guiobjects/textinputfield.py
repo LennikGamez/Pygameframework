@@ -8,13 +8,39 @@ from framework.components.guiobjects.GuiEventHandler import GuiEventHandler
 from framework.timer.timer import RepeatTimer
 
 class TextInput(Button):
-    def __init__(self, position: Vector, size: Vector):
+    def __init__(self, position: Vector, size: Vector, orientation="l", valign="c"):
         GuiEventHandler.textinput.append(self)
         super().__init__(position, size)
         self.font = Render.FONTS.get("default")
         self.focused = False
         self.showCursor = False
         self.text = "Hallo"
+        self.orientation = orientation
+        self.valgin = valign
+        self.text_origin = self.position.copy()
+
+        match orientation:
+            case "l":
+                pass
+            case "c":
+                self.text_origin.x = self.center().x    # the center point of the text is text_origin
+            case "r":
+                self.text_origin = Vector(self.right(),self.position.y)
+
+        match valign:
+            case "c":
+                self.text_origin.y = self.center().y
+                if self.orientation in "lr":
+                    self.text_origin.y -= self.font.get_height()/2  # apply offset to compensate the position change by changing the orientation
+            case "t":
+                self.text_origin.y = self.center().y - self.font.get_height()
+                if self.orientation == "c":
+                    self.text_origin.y = self.center().y - self.font.get_height()/2
+            case "b":
+                self.text_origin.y = self.center().y
+                if self.orientation == "c":
+                    self.text_origin.y += self.font.get_height() / 2
+
         self.cursor_blink = RepeatTimer(.3, self.toggleCursor)
 
     def toggleCursor(self):
@@ -27,14 +53,39 @@ class TextInput(Button):
     def renderCursor(self):
         if self.focused and self.showCursor:
             size = self.font.size(self.text)
-            center = self.center()
-            pos = Vector(center.x+size[0]/2, center.y-size[1]/2)
-            pos2 = Vector(self.center().x+size[0]/2, center.y+size[1]/2)
+            x = 0
+            y1, y2 = 0, 0
+
+            match self.valgin:
+                case "t" | "b":
+                    if self.orientation == "c": # origin center
+                        y1 = self.text_origin.y - size[1] / 2
+                        y2 = self.text_origin.y + size[1] / 2
+                    else:
+                        y1 = self.text_origin.y # origin top right
+                        y2 = self.text_origin.y + size[1]
+                case "c":
+                    if self.orientation == "c": # origin center
+                        y1 = self.text_origin.y - size[1]/2
+                        y2 = self.text_origin.y + size[1]/2
+                    else:
+                        y1 = self.text_origin.y # origin top right
+                        y2 = self.text_origin.y + size[1]
+
+            match self.orientation:
+                case "l"|"r":
+                    x = self.text_origin.x + size[0]
+                case "c":
+                    x = self.text_origin.x + size[0]/2
+
+            pos = Vector(x, y1)
+            pos2 = Vector(x, y2)
+
             Render.line(pos, pos2)
 
     def render(self):
         Render.rect(self.position, self.size.x, self.size.y, width=2)
-        Render.text(self.center(), self.text)
+        Render.text(self.text_origin, self.text, orientation=self.orientation)
         self.renderCursor()
 
     def isClicked(self, click):
