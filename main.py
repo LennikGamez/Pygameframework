@@ -45,6 +45,8 @@ class App(Game):
         self.player4 = Player(Vector(500, 190))
         self.player5 = Player(Vector(500, 280))
 
+        self.start_btn = Button(Screen.center(), Vector(100,75))
+
         GroupManager.addToGroup("Players", self.player2, self.player3, self.player4, self.player5)
 
         self.collider1 = HitBox(Vector(250, 200), Vector(50, 50))
@@ -54,7 +56,7 @@ class App(Game):
 
         self.timer = RepeatTimer(1, lambda: print("done"))
         self.addToScene(self.collider1, self.player, self.player2, self.player3, self.player4, self.player5)
-
+        self.addToScene(self.start_btn)
     def drawBackground(self):
         Screen.DISPLAY.fill(Color.BLUE)
         # img = loadImg(r"./City.jpg").convert_alpha()
@@ -93,8 +95,8 @@ class App(Game):
 
 
 @onMouseButtonDown
-def click(e):
-    if e.button == 1:
+def click(event):
+    if event.button == 1:
         print("stop")
     else:
         print("start")

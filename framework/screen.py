@@ -29,4 +29,4 @@ class Screen:
     @staticmethod
     def center():
         """returns the center Vector of the window"""
-        return tuple2vec(Screen.getSize() / 2)
+        return Screen.getSize() / 2

@@ -1,8 +1,8 @@
 import pygame
 from framework.helperfunctions import tuple2vec
 from framework.render import Render
-from .. import Color
-from ..vectorclass import Vector
+from framework import Color
+from framework.vectorclass import Vector
 from .position import Position2D
 
 

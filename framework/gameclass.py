@@ -56,7 +56,10 @@ class Game:
         self.activeScene = newscene
 
     def addToScene(self, *objs):
-        self.activeScene.addObjects(objs)
+        for obj in objs:
+            obj.show()
+            obj.activate()
+            self.activeScene.addObject(obj)
 
     def run(self, framerate: float = 60.0):
         try:

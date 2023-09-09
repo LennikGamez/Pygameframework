@@ -1,5 +1,3 @@
-import pygame
-
 from .gameclass import Game
 from .render import Render
 from .timer.timer import RepeatTimer, OneShotTimer
@@ -15,8 +13,11 @@ from .groupmanager import GroupManager
 
 from .particle import Particle
 #+ Gameobjects +#
-from .components.dummy import Dummy
-from .components.hitbox import HitBox
-from .components.position import Position2D
-from .components.sprite import Sprite
-from .components.object import Object
+from framework.components.gameobjects.dummy import Dummy
+from framework.components.gameobjects.object import Object
+from framework.components.gameobjects.sprite import Sprite
+from framework.components.gameobjects.hitbox import HitBox
+from framework.components.gameobjects.position import Position2D
+
+#+ Guiobjects +#
+from framework.components.guiobjects.button import Button

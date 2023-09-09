@@ -2,10 +2,10 @@ from pygame import Surface
 import pygame
 
 from framework.color import Color
-from ..helperfunctions import tuple2vec
+from framework.helperfunctions import tuple2vec
 
 from framework.render import Render
-from ..vectorclass import Vector
+from framework.vectorclass import Vector
 from .position import Position2D
 
 

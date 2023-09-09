@@ -1,8 +1,8 @@
-from ..groupmanager import GroupManager as gm
+from framework.groupmanager import GroupManager as gm
 class Dummy:
     def __init__(self) -> None:
-        self._active = True
-        self._visible = True
+        self._active = False
+        self._visible = False
         self.delete_request = False
         self.layer = 0
 

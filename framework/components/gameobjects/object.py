@@ -2,7 +2,7 @@ from .position import Position2D
 from .dummy import Dummy
 from .hitbox import HitBox
 from .sprite import Sprite
-from .. import Vector
+from framework import Vector
 
 
 class Object(Position2D):
@@ -64,3 +64,23 @@ class Object(Position2D):
             if not isinstance(component, Dummy):
                 continue
             component.render(camera)
+
+    def activate(self):
+        super().activate()
+        for comp in self.components:
+            comp.activate()
+
+    def deactivate(self):
+        super().deactivate()
+        for comp in self.components:
+            comp.deactivate()
+
+    def hide(self):
+        super().hide()
+        for comp in self.components:
+            comp.hide()
+
+    def show(self):
+        super().show()
+        for comp in self.components:
+            comp.show()

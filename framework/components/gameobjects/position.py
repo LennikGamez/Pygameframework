@@ -1,5 +1,5 @@
 
-from ..vectorclass import Vector
+from framework.vectorclass import Vector
 from .dummy import Dummy
 
 
