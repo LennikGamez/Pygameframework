@@ -11,10 +11,12 @@ class Maskcollider(Position2D):
         super().__init__(position)
         self.debug = False
         self.surface = surface
+        self.size = tuple2vec(surface.get_size())
         self.mask = from_surface(self.surface)
         self.mask_img = self.mask.to_surface()
+
 
     def render(self, camera=True):
         if not self.debug:
             return
-        Render.image(self.position+tuple2vec(self.surface.get_size())/2, self.mask_img, camera=camera)
+        Render.image(self.position+self.size/2, self.mask_img, camera=camera)

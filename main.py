@@ -63,8 +63,8 @@ class App(Game):
         # img = loadImg(r"./City.jpg").convert_alpha()
         # self.display(img, Vector(0,0))
 
+
     def loop(self):
-        self.player.sprite_collider.debug = True
         Render.line(Vector(250,0), Vector(250,500), layer=1, color=Color.RED)
         Render.line(Vector(0,250), Vector(500,250), layer=1, color=Color.RED)
         # Camera.set_target(self.player)

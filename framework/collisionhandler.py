@@ -51,7 +51,7 @@ class CollisionHandler:
     @staticmethod
     def maskcollision(m1: Maskcollider, m2: Maskcollider):
         from framework.render import Render
-        offset = (m2.position) - (m1.position)
+        offset = (m2.position+m2.offset) - (m1.position+m1.offset)
         return m1.mask.overlap(m2.mask, offset.to_tuple())
 
 
