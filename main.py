@@ -46,7 +46,7 @@ class App(Game):
         self.player5 = Player(Vector(500, 280))
 
         self.start_btn = Button(Screen.center(), Vector(100,75))
-        self.inp = TextInput(Vector(250,100), Vector(200,75), valign="b", orientation="l")
+        self.inp = TextInput(Vector(250,100), Vector(200,75), valign="b", orientation="r")
 
         GroupManager.addToGroup("Players", self.player2, self.player3, self.player4, self.player5)
 

@@ -73,8 +73,10 @@ class TextInput(Button):
                         y2 = self.text_origin.y + size[1]
 
             match self.orientation:
-                case "l"|"r":
+                case "l":
                     x = self.text_origin.x + size[0]
+                case "r":
+                    x = self.text_origin.x
                 case "c":
                     x = self.text_origin.x + size[0]/2
 
