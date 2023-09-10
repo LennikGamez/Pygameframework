@@ -67,8 +67,8 @@ class App(Game):
     def loop(self):
         Render.line(Vector(250,0), Vector(250,500), layer=1, color=Color.RED)
         Render.line(Vector(0,250), Vector(500,250), layer=1, color=Color.RED)
-        # Camera.set_target(self.player)
-        # Camera.update_offset()
+        Camera.set_target(self.player)
+        Camera.update_offset()
 
         self.p.emit()
         Render.text(Vector(250,15),"0000")
@@ -103,7 +103,7 @@ class App(Game):
 @onMouseButtonDown
 def click(event):
     if event.button == 1:
-        print("stop")
+        Camera.shakeScreen(intensity=5,durration=20)
     else:
         print("start")
 
