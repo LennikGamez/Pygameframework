@@ -63,6 +63,8 @@ class Object(Position2D):
         for component in self.components:
             if not isinstance(component, Dummy):
                 continue
+            if not component.isVisible():
+                continue
             component.render(camera)
 
     def activate(self):

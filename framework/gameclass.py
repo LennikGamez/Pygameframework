@@ -49,6 +49,9 @@ class Game:
     def onExit(self):
         """Overwrite and insert your code that executes after you close the game"""
 
+    def onStart(self):
+        """Overwrite"""
+
     def loop(self):
         """OVERWRITE--gets executed every frame"""
 
@@ -63,6 +66,7 @@ class Game:
 
     def run(self, framerate: float = 60.0):
         try:
+            self.onStart()
             while self.running:
                 self.drawBackground()
                 self.drawLayers()

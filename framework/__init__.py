@@ -17,6 +17,7 @@ from framework.components.gameobjects.dummy import Dummy
 from framework.components.gameobjects.object import Object
 from framework.components.gameobjects.sprite import Sprite
 from framework.components.gameobjects.hitbox import HitBox
+from framework.components.gameobjects.maskcollider import Maskcollider
 from framework.components.gameobjects.position import Position2D
 
 #+ Guiobjects +#

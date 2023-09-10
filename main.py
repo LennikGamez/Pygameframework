@@ -25,22 +25,22 @@ class Player(Object):
         self.sprite = Sprite(self.position, img)
         self.head = HitBox(self.position, Vector(32, 25))
         self.body = HitBox(self.position, Vector(75, 65))
-
+        self.sprite_collider = Maskcollider(self.position, self.sprite.img)
         off = self.head.getCenterToPositionOffset(self.sprite.center() - Vector(0, 32))
 
         self.layer = 1
 
         self.addComponent(self.sprite)
+        self.addComponent(self.sprite_collider)
         self.addComponent(self.head, off)
         self.addComponent(self.body, self.body.getCenterToPositionOffset(self.sprite.center() + Vector(0, 15)))
-
 class App(Game):
     def __init__(self, width=500, height=500, layers=2) -> None:
         super().__init__(width, height, layers)
 
         self.p = DustParticle()
         self.player = Player(Vector(10, 10))
-        self.player2 = Player(Vector(500, 10))
+        self.player2 = Player(Vector(250, 10))
         self.player3 = Player(Vector(500, 100))
         self.player4 = Player(Vector(500, 190))
         self.player5 = Player(Vector(500, 280))
@@ -48,7 +48,7 @@ class App(Game):
         self.start_btn = Button(Screen.center(), Vector(100,75))
         self.inp = TextInput(Vector(250,100), Vector(200,75), valign="b", orientation="r")
 
-        GroupManager.addToGroup("Players", self.player2, self.player3, self.player4, self.player5)
+        GroupManager.addToGroup("Players", self.player3, self.player4, self.player5)
 
         self.collider1 = HitBox(Vector(250, 200), Vector(50, 50))
         self.collider1.layer = 1
@@ -64,10 +64,11 @@ class App(Game):
         # self.display(img, Vector(0,0))
 
     def loop(self):
+        self.player.sprite_collider.debug = True
         Render.line(Vector(250,0), Vector(250,500), layer=1, color=Color.RED)
         Render.line(Vector(0,250), Vector(500,250), layer=1, color=Color.RED)
-        Camera.set_target(self.player)
-        Camera.update_offset()
+        # Camera.set_target(self.player)
+        # Camera.update_offset()
 
         self.p.emit()
         Render.text(Vector(250,15),"0000")
@@ -90,9 +91,13 @@ class App(Game):
             g.p.addParticles([g.player.body.center()+Vector(0,25), 7, Color.WHITE])
 
         collision = CollisionHandler.snapbackCollision(self.player.body, self.collider1, self.player)
+        mc = CollisionHandler.maskcollision(self.player.sprite_collider, self.player2.sprite_collider)
+        if mc:
+            print("coll")
         for player in GroupManager.getGroup("Players"):
-            CollisionHandler.snapbackCollision(self.player.head, player.body, self.player)
-            CollisionHandler.snapbackCollision(player.body, self.player.head, player)
+            pass
+            #CollisionHandler.snapbackCollision(self.player.head, player.body, self.player)
+            #CollisionHandler.snapbackCollision(player.body, self.player.head, player)
 
 
 @onMouseButtonDown

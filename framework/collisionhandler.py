@@ -1,4 +1,5 @@
 from enum import Enum, auto
+from framework.components.gameobjects.maskcollider import Maskcollider
 
 import keyboard
 
@@ -45,6 +46,15 @@ class CollisionType:
 
 
 class CollisionHandler:
+
+
+    @staticmethod
+    def maskcollision(m1: Maskcollider, m2: Maskcollider):
+        from framework.render import Render
+        offset = (m2.position) - (m1.position)
+        return m1.mask.overlap(m2.mask, offset.to_tuple())
+
+
 
     @staticmethod
     def snapbackCollision(h1, h2, parent=None):
